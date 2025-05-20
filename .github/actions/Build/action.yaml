@@ -1,0 +1,19 @@
+name: Build
+
+description: Here we are Build the reactjs file
+
+runs:
+  using: composite
+  steps:
+  - name: Install the Reactjs dependency
+    run: bash ./run.sh
+    shell: bash
+
+  - name: Upload the Build file as an Artifact
+    uses: actions/upload-artifact@v4
+    with:
+      name: Build file
+      path: build
+      retention-days: 1
+      overwrite: true
+      include-hidden-files: true

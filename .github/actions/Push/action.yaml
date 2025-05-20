@@ -1,0 +1,37 @@
+name: Build the file
+
+description: Here we are Build the reactjs file
+
+runs:
+  using: 'composite'
+  steps:
+  # Remove if aleady build file container in that path
+  - name: Remove nginx files
+    run: |
+      sudo rm -r /var/www/html/admin/* || true
+    shell: bash
+  # It will Download the Build file from the previous job
+  - name: Download the Build file
+    uses: actions/download-artifact@v4
+    with:
+      name: Build file
+      path: build
+
+  # Copy the Build file and path in the specific path.
+  - name: Push Build file to nginx server
+    run: |
+      # Ensure the build directory exists before copying
+      if [ -d "./build" ]; then
+        sudo cp -r ./build /var/www/html/admin/
+      else
+        echo "Build directory does not exist."
+        exit 1
+      fi
+    shell: bash
+  
+  # Check the Nginx file and restart the Nginx server
+  - name: Check & Restart Nginx
+    run: |
+      sudo nginx -t
+      sudo systemctl restart nginx
+    shell: bash
