@@ -26,20 +26,29 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(get_products(obj));
-  }, [searchValue, currentPage, parPage]);
+  }, [currentPage, parPage]);
+
+  // useEffect(() => {
+  //   setFilteredProducts(products);
+  // }, [products]);
+
+  const handleFilter = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchValue(value); // optional, agar future me chahiye ho
+    if (value === "") {
+      // If input is cleared, show full list again
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(value)
+      );
+      setFilteredProducts(filtered);
+    }
+  };
 
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
-
-  const handleFilter = (e) => {
-    const value = e.target.value.toLowerCase();
-    setSearchValue(value);
-    const filtered = products.filter((product) =>
-      product.name.toLowerCase().includes(value)
-    );
-    setFilteredProducts(filtered);
-  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -108,13 +117,22 @@ const Products = () => {
       name: "Action",
       cell: (row) => (
         <div className="flex gap-2">
-          <Link to={`/seller/dashboard/add-variant/${row._id}`} className="text-purple-500">
+          <Link
+            to={`/seller/dashboard/add-variant/${row._id}`}
+            className="text-purple-500"
+          >
             <FaClone />
           </Link>
-          <Link to={`/seller/dashboard/edit-product/${row._id}`} className="text-green-600">
+          <Link
+            to={`/seller/dashboard/edit-product/${row._id}`}
+            className="text-green-600"
+          >
             <FaEdit />
           </Link>
-          <Link to={`/seller/dashboard/products/ProductDetails/${row._id}`} className="text-blue-500">
+          <Link
+            to={`/seller/dashboard/products/ProductDetails/${row._id}`}
+            className="text-blue-500"
+          >
             <FaEye />
           </Link>
 
