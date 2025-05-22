@@ -143,6 +143,27 @@ export const productTypeAdd = createAsyncThunk(
   }
 );
 
+export const searchFilterAdd = createAsyncThunk(
+  "category/searchFilterAdd",
+  async ({ productType, options }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const formData = {
+        productType: productType,
+        options: options,
+      };
+
+      console.log("formData", formData);
+
+      const { data } = await api.post("/add-search-filter-options", formData, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const productTypeUpdate = createAsyncThunk(
   "category/productTypeUpdate",
   async (
@@ -243,6 +264,10 @@ export const categoryReducer = createSlice({
       state.successMessage = payload.message;
     },
     [productTypeUpdate.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.successMessage = payload.message;
+    },
+    [searchFilterAdd.fulfilled]: (state, { payload }) => {
       state.loader = false;
       state.successMessage = payload.message;
     },

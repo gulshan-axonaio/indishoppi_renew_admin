@@ -195,4 +195,17 @@ export const allNav = [
       },
     ],
   },
+  {
+    id: 28,
+    title: "Search Filter",
+    icon: <FiMapPin />,
+    role: "admin",
+    subItems: [
+      {
+        id: 29,
+        title: "All Filters",
+        path: "/admin/dashboard/get-search-filter",
+      },
+    ],
+  },
 ];

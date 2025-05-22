@@ -28,6 +28,12 @@ const ProductType = lazy(() => import("../../views/admin/ProductType"));
 const AddProductType = lazy(() => import("../../views/admin/AddProductType"));
 const EditProductType = lazy(() => import("../../views/admin/EditProductType"));
 const FilterOption = lazy(() => import("../../views/admin/FilterOption"));
+
+const SearchFilter = lazy(() => import("../../views/admin/SearchFilter"));
+const AddSearchFilter = lazy(() => import("../../views/admin/AddSearchFilter"));
+const EditSearchFilter = lazy(() =>
+  import("../../views/admin/EditSearchFilter")
+);
 export const adminRoutes = [
   {
     path: "admin/dashboard",
@@ -132,6 +138,21 @@ export const adminRoutes = [
   {
     path: "/admin/dashboard/filter/filter-option",
     element: <FilterOption />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/get-search-filter",
+    element: <SearchFilter />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/add-search-filter",
+    element: <AddSearchFilter />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/edit-search-filter/:productTypeId",
+    element: <EditSearchFilter />,
     role: "admin",
   },
 ];

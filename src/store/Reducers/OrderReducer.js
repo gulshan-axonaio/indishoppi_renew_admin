@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
+import SearchFilter from "../../views/admin/SearchFilter";
 
 export const get_admin_orders = createAsyncThunk(
   "order/get_admin_orders",
@@ -200,6 +201,26 @@ export const admin_get_productType = createAsyncThunk(
   }
 );
 
+export const admin_get_searchFilter = createAsyncThunk(
+  "order/admin_get_searchFilter",
+  async (
+    { parPage, page, searchValue },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const {
+        data,
+      } = await api.get(
+        `/admin/get-search-filter/?page=${page}&searchValue=${searchValue}&parPage=${parPage}`,
+        { withCredentials: true }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const OrderReducer = createSlice({
   name: "order",
   initialState: {
@@ -214,6 +235,7 @@ export const OrderReducer = createSlice({
     srOrder: {},
     totalProductType: 0,
     productType: [],
+    SearchFilter: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -225,6 +247,9 @@ export const OrderReducer = createSlice({
     [admin_get_productType.fulfilled]: (state, { payload }) => {
       state.totalProductType = payload.totalProductType;
       state.productType = payload.productType;
+    },
+    [admin_get_searchFilter.fulfilled]: (state, { payload }) => {
+      state.SearchFilter = payload.SearchFilter;
     },
     [push_order_to_shiprocket.fulfilled]: (state, { payload }) => {
       state.loader = false;
